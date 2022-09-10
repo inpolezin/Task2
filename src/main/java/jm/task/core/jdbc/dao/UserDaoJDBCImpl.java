@@ -1,6 +1,7 @@
 package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.util.Util;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,22 +10,10 @@ import java.util.List;
 public class UserDaoJDBCImpl implements UserDao {
     private static int PEOPLE_COUNT;
 
-    private static final String URL = "jdbc:mysql://localhost:3306/mydb";
-    private static final String NAME = "root";
-    private static final String PASSWORD = "13062001";
-
-    private static Connection connection;
-
-    static {
-        try {
-            connection = DriverManager.getConnection(URL, NAME, PASSWORD);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
+    private static Connection connection = null;
+    
     public UserDaoJDBCImpl() {
-
+        connection = Util.connection;
     }
 
     public void createUsersTable() {
