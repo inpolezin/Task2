@@ -1,6 +1,6 @@
 package jm.task.core.jdbc.service;
 
-import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.model.UserEntity;
 import java.util.List;
 
 public interface UserService {
@@ -12,7 +12,7 @@ public interface UserService {
 
     void removeUserById(long id);
 
-    List<User> getAllUsers();
+    List<UserEntity> getAllUsers();
 
     void cleanUsersTable();
 }

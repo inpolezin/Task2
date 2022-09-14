@@ -18,4 +18,12 @@ public class Util {
             throwables.printStackTrace();
         }
     }
+
+    public static void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

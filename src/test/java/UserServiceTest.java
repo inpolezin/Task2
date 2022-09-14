@@ -1,4 +1,4 @@
-import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.model.UserEntity;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 import org.junit.Assert;
@@ -41,11 +41,11 @@ public class UserServiceTest {
             userService.createUsersTable();
             userService.saveUser(testName, testLastName, testAge);
 
-            User user = userService.getAllUsers().get(0);
+            UserEntity userEntity = userService.getAllUsers().get(0);
 
-            if (!testName.equals(user.getName())
-                    || !testLastName.equals(user.getLastName())
-                    || testAge != user.getAge()
+            if (!testName.equals(userEntity.getName())
+                    || !testLastName.equals(userEntity.getLastName())
+                    || testAge != userEntity.getAge()
             ) {
                 Assert.fail("User был некорректно добавлен в базу данных");
             }
@@ -73,9 +73,9 @@ public class UserServiceTest {
             userService.dropUsersTable();
             userService.createUsersTable();
             userService.saveUser(testName, testLastName, testAge);
-            List<User> userList = userService.getAllUsers();
+            List<UserEntity> userEntityList = userService.getAllUsers();
 
-            if (userList.size() != 1) {
+            if (userEntityList.size() != 1) {
                 Assert.fail("Проверьте корректность работы метода сохранения пользователя/удаления или создания таблицы");
             }
         } catch (Exception e) {

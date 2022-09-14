@@ -1,18 +1,18 @@
 package jm.task.core.jdbc.model;
 
 
-public class User {
+public class UserEntity {
 
     private Long id;
     private String name;
     private String lastName;
     private Byte age;
 
-    public User() {
+    public UserEntity() {
 
     }
 
-    public User(String name, String lastName, Byte age) {
+    public UserEntity(String name, String lastName, Byte age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
