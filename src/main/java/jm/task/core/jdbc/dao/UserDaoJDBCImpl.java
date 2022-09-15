@@ -8,18 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private static Connection connection = null;
-
-    public UserDaoJDBCImpl() {
-        connection = Util.connection;
-    }
 
     public void createUsersTable() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS Users (id INT NOT NULL AUTO_INCREMENT, " +
-                                                                                                                     "name VARCHAR(50), " +
-                                                                                                                     "lastname VARCHAR(50), " +
-                                                                                                                     "age INT, " +
-                                                                                                                     "PRIMARY KEY (id) )")){
+        String sql = "CREATE TABLE IF NOT EXISTS Users (id INT NOT NULL AUTO_INCREMENT, " +
+                "name VARCHAR(50), " +
+                "lastname VARCHAR(50), " +
+                "age INT, " +
+                "PRIMARY KEY (id) )";
+
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -27,7 +26,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DROP TABLE IF EXISTS Users")){
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DROP TABLE IF EXISTS Users")) {
+
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -35,7 +36,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Users (name, lastname, age) VALUES(?,?,?)")){
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Users (name, lastname, age) VALUES(?,?,?)")) {
+
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setInt(3, age);
@@ -47,7 +50,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE Id = ?");){
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE Id = ?");) {
+
             preparedStatement.setInt(1, (int) id);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -58,8 +63,9 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<UserEntity> getAllUsers() {
         List<UserEntity> userEntityList = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Users");
-             ResultSet resultSet = preparedStatement.executeQuery()){
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Users");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 UserEntity userEntity = new UserEntity();
@@ -79,7 +85,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("TRUNCATE TABLE Users")){
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("TRUNCATE TABLE Users")) {
+
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

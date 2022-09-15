@@ -9,21 +9,13 @@ public class Util {
     private static final String NAME = "root";
     private static final String PASSWORD = "13062001";
 
-    public static Connection connection;
-
-    static {
+    public static Connection getConnection() {
+        Connection connection = null;
         try {
             connection = DriverManager.getConnection(URL, NAME, PASSWORD);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    }
-
-    public static void closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        return connection;
     }
 }
